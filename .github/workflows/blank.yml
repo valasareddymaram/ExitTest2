@@ -25,7 +25,7 @@ jobs:
          az storage account create -n valasastorageaccount -g valasatestrg -l westus --sku Standard_LRS
       - if: ${{ github.event.inputs.Update } == 'Allow'}
         run: |
-         az storage account update --default-action ${{ github.event.inputs.message }}
+         az storage account update --default-action ${{ github.event.inputs.Update }}
       - if: ${{ github.event.inputs.Delete }=='true'}
         run: |
          az storage account delete -n valasastorageaccount -g valasatestrg
