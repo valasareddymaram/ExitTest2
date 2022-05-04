@@ -7,7 +7,7 @@ on:
     inputs:
       Update:
         type: choice
-        description: Update the location
+        description: Update the Storage Account default Action
         options: 
         - Allow
         - Deny
@@ -29,5 +29,5 @@ jobs:
          az storage account update -n valasastorageaccount -g valasatestrg --default-action ${{ github.event.inputs.Update }}
       - if: ${{ github.event.inputs.Delete =='true'}}
         run: |
-         az storage account delete -n valasastorageaccount -g valasatestrg
+         az storage account delete -n valasastorageaccount -g valasatestrg -y
         shell: bash
