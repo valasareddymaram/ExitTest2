@@ -1,0 +1,32 @@
+name: AzureLoginSample
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      Update:
+        type: choice
+        description: Update the location
+        options: 
+        - Allow
+        - Deny
+      Delete:
+        type: boolean
+        description: Want to delete storage account
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log in with Azure
+        run: |
+         az login --service-principal -u '${{ secrets.APPID}}' -p '${{ secrets.PASSWORD }}' --tenant '${{ secrets.TENANT}}'
+         az storage account create -n valasastorageaccount -g valasatestrg -l westus --sku Standard_LRS
+      - if: ${{ github.event.inputs.Update } == 'Allow'}
+        run: |
+         az storage account update --default-action ${{ github.event.inputs.message }}
+      - if: ${{ github.event.inputs.Delete }=='true'}
+        run: |
+         az storage account delete -n valasastorageaccount -g valasatestrg
+        shell: bash
