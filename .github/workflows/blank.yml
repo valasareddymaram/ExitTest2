@@ -14,7 +14,8 @@ on:
       Delete:
         type: boolean
         description: Want to delete storage account
-
+        
+        
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
