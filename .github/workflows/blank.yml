@@ -17,11 +17,13 @@ on:
         
         
 jobs:
-  build-and-deploy:
+  if_merged:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Log in with Azure
         run: |
+         az account set -s '${{secrets.SUBID}}'
          az login --service-principal -u '${{ secrets.APPID}}' -p '${{ secrets.PASSWORD }}' --tenant '${{ secrets.TENANT}}'
          az storage account create -n valasastorageaccount -g valasatestrg -l westus --sku Standard_LRS
       - if: ${{ github.event.inputs.Update  == 'Allow'}}
