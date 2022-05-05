@@ -1,8 +1,8 @@
 name: AzureLoginSample
 on:
   push:
-    types:
-      - closed
+   branches:
+     - master
   workflow_dispatch:
     inputs:
       Choice:
@@ -16,7 +16,7 @@ on:
         
 jobs:
   if_merged:
-    if: github.event.pull_request.merged == true
+    if: github.event.push_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Log in with Azure
