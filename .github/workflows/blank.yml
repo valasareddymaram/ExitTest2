@@ -1,8 +1,8 @@
 name: AzureLoginSample
 on:
-  pull_request:
-    types:
-      - closed
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       Choice:
@@ -15,15 +15,20 @@ on:
         
         
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
+  Azure_Login:
     runs-on: ubuntu-latest
     steps:
       - name: Log in with Azure
         run: |
          az account set -s '${{secrets.SUBID}}'
          az login --service-principal -u '${{ secrets.APPID}}' -p '${{ secrets.PASSWORD }}' --tenant '${{ secrets.TENANT}}'
-         az storage account create -n valasastorageaccount -g valasatestrg -l westus --sku Standard_LRS
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Azure Storage Account
+        run: |
+          az storage account create -n valasastorageaccount -g valasatestrg -l westus --sku Standard_LRS
       - if: ${{ github.event.inputs.Choice  == 'Update' }}
         run: |
          az storage account update -n valasastorageaccount -g valasatestrg --default-action Allow
