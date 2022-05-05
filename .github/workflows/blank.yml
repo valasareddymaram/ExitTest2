@@ -1,8 +1,7 @@
 name: AzureLoginSample
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [closed]
   workflow_dispatch:
     inputs:
       Choice:
@@ -11,8 +10,7 @@ on:
        required: true
        options:
        - Update
-       - Delete
-        
+       - Delete     
         
 jobs:
   Azure_Login:
