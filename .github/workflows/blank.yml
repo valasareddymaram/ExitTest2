@@ -26,6 +26,7 @@ jobs:
     steps:
       - name:  Create Storage Account
         run: |
+          az login --service-principal -u '${{ secrets.APPID}}' -p '${{ secrets.PASSWORD }}' --tenant '${{ secrets.TENANT}}'
           az storage account create -n valasastorageaccount -g valasatestrg -l westus --sku Standard_LRS
       - if: ${{ github.event.inputs.Choice  == 'Update' }}
         run: |
