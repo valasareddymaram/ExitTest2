@@ -21,7 +21,6 @@ jobs:
       - name: Log in with Azure
         run: |
          az login --service-principal -u '${{ secrets.APPID}}' -p '${{ secrets.PASSWORD }}' --tenant '${{ secrets.TENANT}}'
-         az account set -s '${{secrets.SUBID}}'
   if_merged:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
