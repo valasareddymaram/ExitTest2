@@ -1,19 +1,17 @@
 name: AzureLoginSample
 on:
   push:
-    branches:
-      - master
+    types:
+      - closed
   workflow_dispatch:
     inputs:
-      Update:
-        type: choice
-        description: Update the Storage Account default Action
-        options: 
-        - Allow
-        - Deny
-      Delete:
-        type: boolean
-        description: Want to delete storage account
+      Choice:
+       type: choice
+       description: Please select your option
+       required: true
+       options:
+       - Update
+       - Delete
         
         
 jobs:
@@ -26,10 +24,10 @@ jobs:
          az account set -s '${{secrets.SUBID}}'
          az login --service-principal -u '${{ secrets.APPID}}' -p '${{ secrets.PASSWORD }}' --tenant '${{ secrets.TENANT}}'
          az storage account create -n valasastorageaccount -g valasatestrg -l westus --sku Standard_LRS
-      - if: ${{ github.event.inputs.Update  == 'Allow'}}
+      - if: ${{ github.event.inputs.Choice  == 'Update' }}
         run: |
-         az storage account update -n valasastorageaccount -g valasatestrg --default-action ${{ github.event.inputs.Update }}
-      - if: ${{ github.event.inputs.Delete =='true'}}
+         az storage account update -n valasastorageaccount -g valasatestrg --default-action Allow
+      - if: ${{ github.event.inputs.Choice =='Delete'}}
         run: |
          az storage account delete -n valasastorageaccount -g valasatestrg -y
         shell: bash
