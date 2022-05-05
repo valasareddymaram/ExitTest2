@@ -12,7 +12,8 @@ on:
        options:
        - Update
        - Delete   
-        
+  
+  
 jobs:
   Azure_Login:
     runs-on: ubuntu-latest
